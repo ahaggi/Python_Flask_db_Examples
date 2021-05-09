@@ -1,0 +1,24 @@
+
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Flask",
+            "type": "python",
+            "request": "launch",
+            "stopOnEntry": false,
+            "program": "wsgi.py",
+            "env": {
+                "FLASK_APP": "wsgi.py"
+            },
+            "args": [
+                "run"
+            ],
+            "envFile": ".env",
+            "debugOptions": [
+                "RedirectOutput"
+            ],
+            "console": "internalConsole"
+        }
+    ]
+}

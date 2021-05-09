@@ -1,0 +1,592 @@
+openapi: 3.0.1
+info:
+  description: This is the OpenAPI 3 file
+  version: "1.0.0"
+  title: Notes Data Set API
+servers:
+  - url: 'http://127.0.0.1:5003/api/'
+    # variables:
+    # scheme:
+    #   description: 'The Data Set API is accessible via https and http'
+    #   enum:
+    #     - 'https'
+    #     - 'http'
+    #   default: 'http'
+
+paths:
+  /users:
+    get:
+      tags:
+        - User
+      operationId: application.endpoint_handler_user.read_all
+      summary: Read the entire set of user.
+      description: Read the entire set of user
+      responses:
+        '200':
+          description: Successfully read user set operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+    post:
+      tags:
+        - User
+      operationId: application.endpoint_handler_user.add_one
+      summary: Create a new user
+      description: Create a new user
+      requestBody:
+        description: JSON with data of the new user which desired to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+          # application/xml:
+          #   schema:
+          #     $ref: '#/components/schemas/user'
+          # application/x-www-form-urlencoded:
+          #   schema:
+          #     $ref: '#/components/schemas/userForm'
+          # text/plain:
+          #   schema:
+          #     type: string
+      responses:
+        '201':
+          description: Successfully created user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '409':
+          description: user with the same id already exists
+
+  /users/{id}:
+    get:
+      tags:
+        - User
+      operationId: application.endpoint_handler_user.read_one
+      summary: Read one user
+      description: Read one user
+      parameters:
+        - name: id
+          in: path
+          description: id of the user to get
+          schema:
+            type: string
+          required: True
+      responses:
+        '200':
+          description: Successfully retrieve JUST one user from the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '404':
+          description: user with this id is not registered
+
+    put:
+      tags:
+        - User
+      operationId: application.endpoint_handler_user.update_one
+      summary: Update user
+      description: Update user
+      parameters:
+        - name: id
+          in: path
+          description: id of the user to update
+          schema:
+            type: string
+          required: True
+      requestBody:
+        description: user's details to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+      responses:
+        '200':
+          description: Successfully updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '204':
+          description: No Content
+
+    delete:
+      tags:
+        - User
+      operationId: application.endpoint_handler_user.delete_one
+      summary: Delete a user from the db
+      description: Delete a user
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          description: id of the user to delete
+          required: true
+      responses:
+        '200':
+          description: Successfully deleted user
+        '204':
+          description: No Content
+# -------------------------------------------------------------------------------------------------------------
+
+  # /notes:
+  #   get:
+  #     tags:
+  #       - Note
+  #     operationId: application.endpoint_handler_note.read_all
+  #     summary: Read the entire set of notes 
+  #     description: Read the entire set of notes 
+  #     responses:
+  #       '200':
+  #         description: Successfully read notes 
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/note'
+  #   post:
+  #     tags:
+  #       - Note
+  #     operationId: application.endpoint_handler_note.add_one
+  #     summary: Create a new note
+  #     description: Create a new note
+  #     requestBody:
+  #       description: JSON with data of the new note which desired to create
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/note'
+  #         # application/xml:
+  #         #   schema:
+  #         #     $ref: '#/components/schemas/note'
+  #         # application/x-www-form-urlencoded:
+  #         #   schema:
+  #         #     $ref: '#/components/schemas/noteForm'
+  #         # text/plain:
+  #         #   schema:
+  #         #     type: string
+  #     responses:
+  #       '201':
+  #         description: Successfully created note
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/note'
+  #       '409':
+  #         description: note with the same id already exists
+
+                    
+  # /notes/{id}:
+  #   get:
+  #     tags:
+  #       - Note
+  #     operationId: application.endpoint_handler_note.read_one
+  #     summary: Read one note
+  #     description: Read one note
+  #     parameters:
+  #       - name: id
+  #         in: path
+  #         description: id of the note to get
+  #         schema:
+  #           type: string
+  #         required: True
+  #     responses:
+  #       '200':
+  #         description: Successfully read JUST one note from the database
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/note'
+  #       '404':
+  #         description: note with this id is not registered
+
+  #   put:
+  #     tags:
+  #       - Note
+  #     operationId: application.endpoint_handler_note.update_one
+  #     summary: Update note
+  #     description: Update note
+  #     parameters:
+  #       - name: id
+  #         in: path
+  #         description: id of the note to update
+  #         schema:
+  #           type: string
+  #         required: True
+  #     requestBody:
+  #       description: note's details to update
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/note'
+  #     responses:
+  #       '200':
+  #         description: Successfully updated note
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/note'
+  #       '204':
+  #         description: No Content
+
+  #   delete:
+  #     tags:
+  #       - Note
+  #     operationId: application.endpoint_handler_note.delete_one
+  #     summary: Delete a note from the db
+  #     description: Delete a note
+  #     parameters:
+  #       - name: id
+  #         in: path
+  #         schema:
+  #           type: string
+  #         description: id of the note to delete
+  #         required: true
+  #     responses:
+  #       '200':
+  #         description: Successfully deleted note
+  #       '204':
+  #         description: No Content
+
+
+
+
+  /notes:
+    get:
+      tags:
+        - Note
+      operationId: application.endpoint_handler_note.read_all
+      summary: Read the entire set of notes 
+      description: Read the entire set of notes 
+      responses:
+        '200':
+          description: Successfully read notes 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/note'
+
+  /users/{userId}/notes:
+    post:
+      tags:
+        - Note
+      operationId: application.endpoint_handler_note.add_one
+      summary: Create a new note
+      description: Create a new note
+      parameters:
+        - name: userId  
+          in: path
+          description: userId of the owner User
+          schema:
+            type: string
+          required: True
+      requestBody:
+        description: JSON with data of the new note which desired to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/note'
+          # application/xml:
+          #   schema:
+          #     $ref: '#/components/schemas/note'
+          # application/x-www-form-urlencoded:
+          #   schema:
+          #     $ref: '#/components/schemas/noteForm'
+          # text/plain:
+          #   schema:
+          #     type: string
+      responses:
+        '201':
+          description: Successfully created note
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/note'
+        '409':
+          description: note with the same id already exists
+
+                    
+  /users/{userId}/notes/{id}:
+    get:
+      tags:
+        - Note
+      operationId: application.endpoint_handler_note.read_one
+      summary: Read one note
+      description: Read one note
+      parameters:
+        - name: userId  
+          in: path
+          description: userId of the owner User
+          schema:
+            type: string
+          required: True
+        - name: id
+          in: path
+          description: id of the note to get
+          schema:
+            type: string
+          required: True
+      responses:
+        '200':
+          description: Successfully read JUST one note from the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/note'
+        '404':
+          description: note with this id is not registered
+
+    put:
+      tags:
+        - Note
+      operationId: application.endpoint_handler_note.update_one
+      summary: Update note
+      description: Update note
+      parameters:
+        - name: userId  
+          in: path
+          description: userId of the owner User
+          schema:
+            type: string
+          required: True
+        - name: id
+          in: path
+          description: id of the note to update
+          schema:
+            type: string
+          required: True
+      requestBody:
+        description: note's details to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/note'
+      responses:
+        '200':
+          description: Successfully updated note
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/note'
+        '204':
+          description: No Content
+
+    delete:
+      tags:
+        - Note
+      operationId: application.endpoint_handler_note.delete_one
+      summary: Delete a note from the db
+      description: Delete a note
+      parameters:
+        - name: userId  
+          in: path
+          description: userId of the owner User
+          schema:
+            type: string
+          required: True
+        - name: id
+          in: path
+          schema:
+            type: string
+          description: id of the note to delete
+          required: true
+      responses:
+        '200':
+          description: Successfully deleted note
+        '204':
+          description: No Content
+
+  /categories:
+    get:
+      tags:
+        - Category
+      operationId: application.endpoint_handler_category.read_all
+      summary: Read the entire set of categories 
+      description: Read the entire set of categories 
+      responses:
+        '200':
+          description: Successfully Retrieve all categories
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/category'
+    post:
+      tags:
+        - Category
+      operationId: application.endpoint_handler_category.add_one
+      summary: Create a new category
+      description: Create a new category
+      requestBody:
+        description: JSON with data of the new category which desired to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/category'
+          # application/xml:
+          #   schema:
+          #     $ref: '#/components/schemas/category'
+          # application/x-www-form-urlencoded:
+          #   schema:
+          #     $ref: '#/components/schemas/categoryForm'
+          # text/plain:
+          #   schema:
+          #     type: string
+      responses:
+        '201':
+          description: Successfully created category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/category'
+        '409':
+          description: category with the same id already exists
+
+                    
+
+
+  /categories/{id}:
+    get:
+      tags:
+        - Category
+      operationId: application.endpoint_handler_category.read_one
+      summary: Retrieve one category
+      description: Retrieve one category
+      parameters:
+        - name: id
+          in: path
+          description: id of the category to get
+          schema:
+            type: string
+          required: True
+      responses:
+        '200':
+          description: Successfully read JUST one category from the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/category'
+        '404':
+          description: category with this id is not registered
+
+    put:
+      tags:
+        - Category
+      operationId: application.endpoint_handler_category.update_one
+      summary: Update category
+      description: Update category
+      parameters:
+        - name: id
+          in: path
+          description: id of the category to update
+          schema:
+            type: string
+          required: True
+      requestBody:
+        description: category's details to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/category'
+      responses:
+        '200':
+          description: Successfully updated category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/category'
+        '204':
+          description: No Content
+
+    delete:
+      tags:
+        - Category
+      operationId: application.endpoint_handler_category.delete_one
+      summary: Delete a category from the db
+      description: Delete a category
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          description: id of the category to delete
+          required: true
+      responses:
+        '200':
+          description: Successfully deleted category
+        '204':
+          description: No Content
+
+
+components:
+  schemas:
+  # ----------------------------#
+    user:
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        notes:
+          type: array
+          items:
+            type: object
+            description: List of all the notes registered by this user
+
+      # Both properties are required
+      required:  
+        - username
+        - password
+  # ----------------------------#
+    note:
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        createdOn:
+          type: string
+        priority:
+          type: integer
+        userId:
+          type: integer
+          description: id of the user who created this note
+        categoryId:
+          type: integer
+          description: The "categorization id" of this note
+        user:
+          type: object
+          description: User who created this note
+        category:
+          type: object
+          description: The categorization of this note
+
+      # Both properties are required
+      required:  
+        - content
+        - createdOn
+        - priority
+        - categoryId
+        - userId
+
+  # ----------------------------#
+    category:
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          description: The categorization of this note
+
+      # Both properties are required
+      required:  
+        - type
